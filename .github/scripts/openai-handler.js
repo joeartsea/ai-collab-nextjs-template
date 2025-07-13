@@ -3,6 +3,7 @@ const { Octokit } = require('@octokit/rest');
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const OPENAI_MODEL_NAME = process.env.OPENAI_MODEL || 'gpt-4-turbo';
 const ISSUE_COMMENT = process.env.ISSUE_COMMENT;
 const ISSUE_NUMBER = parseInt(process.env.ISSUE_NUMBER, 10);
 const REPO_INFO = process.env.GITHUB_REPOSITORY.split('/');
@@ -23,7 +24,7 @@ async function run() {
       { role: 'system', content: 'You are a helpful coding assistant.' },
       { role: 'user', content: `GitHub issue comment: "${userPrompt}". Please provide a concise response.` },
     ],
-    model: 'gpt-4-turbo', // Or 'gpt-3.5-turbo'
+    model: OPENAI_MODEL_NAME,
   });
 
   const aiResponse = completion.choices[0].message.content;

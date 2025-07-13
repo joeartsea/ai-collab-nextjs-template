@@ -54,6 +54,9 @@ To use this template for your own project:
 
 ## Customization
 
--   **Models**: You can change the AI models used in each handler script (e.g., switch from `gpt-4-turbo` to `gpt-3.5-turbo` for cost savings).
+-   **Models**: You can change the AI models used. Go to your repository's `Settings` > `Secrets and variables` > `Actions`, then under the `Variables` tab, you can create the following variables to override the defaults:
+    -   `GEMINI_MODEL` (default: `gemini-1.5-flash-latest`)
+    -   `OPENAI_MODEL` (default: `gpt-4-turbo`)
+    -   `CLAUDE_MODEL` (default: `claude-3-sonnet-20240229`)
 -   **Prompts**: The prompts sent to the AIs are very basic. You can edit the handler scripts in `.github/scripts/` to create more sophisticated prompts that include more context (e.g., the issue title, other comments, or even code from the repository).
 -   **Mentions**: You can change the mention triggers by editing the `if` condition in `.github/workflows/ai_assistant.yml`.

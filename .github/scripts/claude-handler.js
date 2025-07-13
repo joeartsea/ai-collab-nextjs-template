@@ -3,6 +3,7 @@ const { Octokit } = require('@octokit/rest');
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+const CLAUDE_MODEL_NAME = process.env.CLAUDE_MODEL || 'claude-3-sonnet-20240229';
 const ISSUE_COMMENT = process.env.ISSUE_COMMENT;
 const ISSUE_NUMBER = parseInt(process.env.ISSUE_NUMBER, 10);
 const REPO_INFO = process.env.GITHUB_REPOSITORY.split('/');
@@ -19,7 +20,7 @@ async function run() {
   const userPrompt = ISSUE_COMMENT.replace('@claude-code', '').trim();
 
   const msg = await anthropic.messages.create({
-    model: 'claude-3-sonnet-20240229', // Or another Claude 3 model
+    model: CLAUDE_MODEL_NAME,
     max_tokens: 1024,
     messages: [{ role: 'user', content: `GitHub issue comment: "${userPrompt}". Please provide a concise response.` }],
   });
