@@ -1,6 +1,6 @@
 # AI Collaboration Next.js Template
 
-This is a template repository for a Next.js project that demonstrates how to integrate multiple AI assistants (Gemini, OpenAI, Claude) into your GitHub workflow. This is a template repository of Next.js projects showing how to integrate multiple AI assistants (Gemini, OpenAI, Claude) into a GitHub workflow. A unique feature of this project is that it retains the context of the comment history of an issue and allows users to discuss it, including giving their opinions to other AIs.
+This is a template repository for a Next.js project that demonstrates how to integrate multiple AI assistants (Gemini, OpenAI, Claude) into a GitHub workflow. A unique feature of this project is its ability to retain the full comment history of an issue, enabling users and AI assistants to engage in contextual discussions and share opinions.
 
 ## How It Works
 
