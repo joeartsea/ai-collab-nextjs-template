@@ -17,16 +17,32 @@ async function run() {
     throw new Error('ANTHROPIC_API_KEY is not set.');
   }
 
+  // Fetch the last 10 comments
+  const { data: comments } = await octokit.issues.listComments({
+    owner: REPO_INFO[0],
+    repo: REPO_INFO[1],
+    issue_number: ISSUE_NUMBER,
+    per_page: 10,
+  });
+
+  // Format history for Claude's messages API
+  const messages = comments.map(comment => ({
+    role: comment.user.login === 'github-actions[bot]' ? 'assistant' : 'user',
+    content: `User @${comment.user.login} said: ${comment.body}`,
+  }));
+  
   const userPrompt = ISSUE_COMMENT.replace('@claude-code', '').trim();
+  messages.push({ role: 'user', content: userPrompt });
 
   const msg = await anthropic.messages.create({
     model: CLAUDE_MODEL_NAME,
-    max_tokens: 1024,
-    messages: [{ role: 'user', content: `GitHub issue comment: "${userPrompt}". Please provide a concise response.` }],
+    max_tokens: 2048, // Increased max_tokens to handle longer context
+    system: 'You are a helpful coding assistant in a GitHub issue. Review the conversation and respond to the last user comment.',
+    messages: messages,
   });
 
   const aiResponse = msg.content[0].text;
-  const responseMessage = `> Replying to @${COMMENT_AUTHOR} on behalf of Claude Code:\n\n${aiResponse}`;
+  const responseMessage = `> Replying to @${COMMENT_AUTHOR} on behalf of Claude Code (context-aware):\n\n${aiResponse}`;
 
   await octokit.issues.createComment({
     owner: REPO_INFO[0],
